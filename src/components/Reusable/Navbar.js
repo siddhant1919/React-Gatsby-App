@@ -21,11 +21,11 @@ export class Navbar extends Component {
     }, {
       id: 3,
       text: "Services",
-      url: "./Services",
+      url: "/Services",
     }, {
       id: 4,
       text: "Contact",
-      url: "./Contact",
+      url: "/Contact",
     }]
 
   }
