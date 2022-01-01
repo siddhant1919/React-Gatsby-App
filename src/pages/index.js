@@ -1,31 +1,57 @@
 import * as React from "react"
-import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
+import { graphql } from "gatsby"
+import { StaticImage, getImage } from "gatsby-plugin-image"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import HeroSection from "../components/Reusable/HeroSection"
+import infoblock from "../components/Reusable/infoblock"
+import Demo from "../components/Reusable/Demo"
+import DualInfo from "../components/Reusable/DualInfo"
+import CourseCart from "../components/Cart/CourseCart"
 
-const IndexPage = () => (
+
+const IndexPage = ({ data }) => (
+  
   <Layout>
-    <Seo title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <StaticImage
-      src="../images/gatsby-astronaut.png"
-      width={300}
-      quality={95}
-      formats={["auto", "webp", "avif"]}
-      alt="A Gatsby astronaut"
-      style={{ marginBottom: `1.45rem` }}
+    {/* <Seo title="Home" />
+    */}
+    <HeroSection
+      // img={data.img.indexPage.fluid}
+      title="I Write Code" subtitle="LCO.in" heroclass="hero-section"
     />
-    <p>
-      <Link to="/page-2/">Go to page 2</Link> <br />
-      <Link to="/using-typescript/">Go to "Using TypeScript"</Link> <br />
-      <Link to="/using-ssr">Go to "Using SSR"</Link> <br />
-      <Link to="/using-dsg">Go to "Using DSG"</Link>
-    </p>
+    <Demo title="About Us" heading="About Us" />
+    <CourseCart courses={data.courses} />
+    <DualInfo title="Our Team" imageLink="https://images.pexels.com/photos/1261427/pexels-photo-1261427.jpeg?cs=srgb&dl=pexels-hitesh-choudhary-1261427.jpg&fm=jpg" />
   </Layout>
 )
+
+export const query = graphql`
+{
+  img: file(relativePath: { eq: "heromain.png" }) {
+        childImageSharp {
+          fluid{
+            ...GatsbyImageSharpFluid_tracedSVG
+          }
+        }
+      }
+      courses: allContentfulCourses{
+        edges{
+          node{
+          id
+            title
+            price
+            category
+            description{
+            description
+            }
+            image {
+              id
+            }
+          }
+        }
+      }
+  }
+`
 
 export default IndexPage
